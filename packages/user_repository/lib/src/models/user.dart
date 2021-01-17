@@ -8,7 +8,7 @@ class User extends Equatable {
     this.token,
   });
 
-  final int id;
+  final String id;
   final String email;
   final String name;
   final String token;

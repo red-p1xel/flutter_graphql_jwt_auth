@@ -10,7 +10,11 @@ class UserRepository {
   final storage = new FlutterSecureStorage();
   final graphQLService = GraphQLService();
 
-  User _user;
+  User user;
+
+  // todo: need testing
+  StreamController _streamController = StreamController<User>();
+  Stream<User> get apiUser => _streamController.stream;
 
   Future<String> restoreToken() async {
     final String restoredToken = await storage.read(key: 'token');
@@ -34,13 +38,16 @@ class UserRepository {
         print('clientErrors: ${result.exception.clientException.toString()}');
       } else {
         final data = result.data['user'];
-        _user = User(
+        user = User(
           id: data["id"],
           email: data["email"],
           name: data["name"],
           token: token,
         );
-        return _user;
+        // todo: need testing
+        _streamController.add(user);
+
+        return user;
       }
     }
   }

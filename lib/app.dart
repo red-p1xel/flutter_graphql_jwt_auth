@@ -49,25 +49,30 @@ class _AppViewState extends State<AppView> {
     return MaterialApp(
       navigatorKey: _navigatorKey,
       builder: (context, child) {
-        return BlocListener<AuthenticationBloc, AuthenticationState>(
-          listener: (context, state) {
-            switch (state.status) {
-              case AuthenticationStatus.authenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                  HomePage.route(),
-                  (route) => false,
-                );
-                break;
-              case AuthenticationStatus.unauthenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                  LoginPage.route(),
-                  (route) => false,
-                );
-                break;
-              default:
-                break;
-            }
-          },
+        return MultiBlocListener(
+          listeners: [
+            BlocListener<AuthenticationBloc, AuthenticationState>(
+              listener: (context, state) {
+                print('State: $state Context: $context');
+                switch (state.status) {
+                  case AuthenticationStatus.authenticated:
+                    _navigator.pushAndRemoveUntil<void>(
+                      HomePage.route(),
+                      (route) => false,
+                    );
+                    break;
+                  case AuthenticationStatus.unauthenticated:
+                    _navigator.pushAndRemoveUntil<void>(
+                      LoginPage.route(),
+                      (route) => false,
+                    );
+                    break;
+                  default:
+                    break;
+                }
+              },
+            ),
+          ],
           child: child,
         );
       },

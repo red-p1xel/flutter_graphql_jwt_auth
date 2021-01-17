@@ -5,18 +5,25 @@ const String signIn = r'''
 ''';
 
 const String getUserById = r'''
-  query User($id: Int!) {
+  query User($id: String!) {
     user(id: $id) {
       id
       email
       name
+      profile {
+        id
+        fileName
+        filePath
+        createdAt
+        updatedAt
+      }
       settings {
         id
         title
         description
         data
       }
-      updated
+      updatedAt
     }
   }
 ''';
@@ -24,5 +31,11 @@ const String getUserById = r'''
 const String refreshToken = r'''
   query RefreshToken() {
     refreshToken()
+  }
+''';
+
+const String signOut = r'''
+  query SignOut() {
+    signOut()
   }
 ''';
