@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:graphql_jwt_auth/login/login.dart';
+import 'package:graphql_jwt_auth/signup/view/signup_page.dart';
 
 class LoginForm extends StatelessWidget {
   @override
@@ -26,6 +27,7 @@ class LoginForm extends StatelessWidget {
             _PasswordInput(),
             const Padding(padding: EdgeInsets.all(12)),
             _LoginButton(),
+            _SignupButton(),
           ],
         ),
       ),
@@ -81,9 +83,6 @@ class _LoginButton extends StatelessWidget {
       buildWhen: (previous, current) => previous.status != current.status,
       builder: (context, state) {
         return state.status.isSubmissionInProgress
-            // =======================================================
-            // Part file for execute query with progress visualization
-            // =======================================================
             ? const CircularProgressIndicator()
             : RaisedButton(
                 key: const Key('loginForm_continue_raisedButton'),
@@ -95,6 +94,20 @@ class _LoginButton extends StatelessWidget {
                     : null,
               );
       },
+    );
+  }
+}
+
+class _SignupButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // final theme = Theme.of(context);
+    return FlatButton(
+      key: const Key('loginForm_createAccount_flatButton'),
+      child: Text(
+        'Sign Up',
+      ),
+      onPressed: () => Navigator.of(context).push<void>(SignupPage.route()),
     );
   }
 }

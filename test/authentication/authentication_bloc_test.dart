@@ -1,7 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
-import 'package:graphql_jwt_auth/authentication/authentication.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:graphql_jwt_auth/authentication/authentication.dart';
 import 'package:mockito/mockito.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -12,7 +12,7 @@ class MockUserRepository extends Mock implements UserRepository {}
 
 void main() {
   const user = User(
-    id: 1,
+    id: '98cce2e6-e04d-4701-8cc6-e9f79f7deaa1',
     email: 'user@test.com',
     name: 'Test User',
     token: 'JSON_WEB_TOKEN',

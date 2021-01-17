@@ -28,8 +28,13 @@ class LoginPasswordChanged extends LoginEvent {
 class LoginSubmitted extends LoginEvent {
   const LoginSubmitted();
 
-  // final Map credentials = {this.credentials};
+  @override
+  List<Object> get props => [];
+}
 
-   @override
+class NavigateToSignup extends LoginEvent {
+  const NavigateToSignup();
+
+  @override
   List<Object> get props => [];
 }

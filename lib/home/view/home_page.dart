@@ -9,6 +9,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.select((AuthenticationBloc bloc) => bloc.state.user);
     return Scaffold(
       appBar: AppBar(title: const Text('Home')),
       body: Center(
@@ -17,11 +18,8 @@ class HomePage extends StatelessWidget {
           children: <Widget>[
             Builder(
               builder: (context) {
-                final user = context.select(
-                  (AuthenticationBloc bloc) => bloc.state.user,
-                );
                 return Text('''
-                    User: ID ${user.id}
+                    UUID ${user.id}
                     EMAIL: ${user.email} 
                     NAME: ${user.name} 
                     TOKEN: ${user.token}

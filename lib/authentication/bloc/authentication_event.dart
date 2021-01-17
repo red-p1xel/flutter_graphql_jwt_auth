@@ -19,3 +19,12 @@ class AuthenticationStatusChanged extends AuthenticationEvent {
 class AuthenticationLogoutRequested extends AuthenticationEvent {}
 
 class AuthenticationRefreshTokenRequest extends AuthenticationEvent {}
+
+class AuthenticationUserChanged extends AuthenticationEvent {
+  const AuthenticationUserChanged(this.user);
+
+  final User user;
+
+  @override
+  List<Object> get props => [user];
+}

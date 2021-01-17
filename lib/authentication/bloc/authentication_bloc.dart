@@ -22,17 +22,23 @@ class AuthenticationBloc
     _authenticationStatusSubscription = _authenticationRepository.status.listen(
       (status) => add(AuthenticationStatusChanged(status)),
     );
+    _userSubscription = _userRepository.apiUser.listen(
+      (user) => add(AuthenticationUserChanged(user)),
+    );
   }
 
   final AuthenticationRepository _authenticationRepository;
   final UserRepository _userRepository;
   StreamSubscription<AuthenticationStatus> _authenticationStatusSubscription;
+  StreamSubscription<User> _userSubscription;
 
   @override
   Stream<AuthenticationState> mapEventToState(
     AuthenticationEvent event,
   ) async* {
-    if (event is AuthenticationStatusChanged) {
+    if (event is AuthenticationUserChanged) {
+      yield _mapAuthenticationUserChangedToState(event);
+    } else if (event is AuthenticationStatusChanged) {
       yield await _mapAuthenticationStatusChangedToState(event);
     } else if (event is AuthenticationLogoutRequested) {
       _authenticationRepository.logOut();
@@ -46,6 +52,16 @@ class AuthenticationBloc
     _authenticationStatusSubscription?.cancel();
     _authenticationRepository.dispose();
     return super.close();
+  }
+
+  AuthenticationState _mapAuthenticationUserChangedToState(
+    AuthenticationUserChanged event,
+  ) {
+    var test = event.user.id;
+    print('Authenticated user UUID: $test');
+    return event.user != User.empty
+        ? AuthenticationState.authenticated(event.user)
+        : const AuthenticationState.unauthenticated();
   }
 
   Future<AuthenticationState> _mapAuthenticationStatusChangedToState(
